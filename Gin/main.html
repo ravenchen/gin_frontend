@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Bootstrap, from Twitter</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="../bootstrap.css" rel="stylesheet">
+    <link href="../multipleselectbox.css" rel="stylesheet">
+    <link href="http://twitter.github.com/bootstrap/assets/js/google-code-prettify/prettify.css" rel="stylesheet">
+    <link href="../" rel="Stylesheet" />
+         <script src="http://twitter.github.com/bootstrap/assets/js/google-code-prettify/prettify.js"></script>
+               <script src="http://code.jquery.com/jquery-1.5.2.min.js" type="text/javascript"></script>
+    <script src="http://autobahn.tablesorter.com/jquery.tablesorter.js" type="text/javascript"></script>
+    <script src="../js/jquery.multipleselectbox.js" type="text/javascript"></script>
+    <script type="text/javascript" src="../js/selectboxes.js"></script>
+            <script>
+                $(function () {
+                    sortTable();
+                    // prettyPrint();
+                    read_pages();
+                  
+                })</script>
+    <script src="http://twitter.github.com/bootstrap/1.4.0/bootstrap-modal.js"></script>
+    <script src="http://twitter.github.com/bootstrap/1.4.0/bootstrap-alerts.js"></script>
+    <script src="http://twitter.github.com/bootstrap/1.4.0/bootstrap-twipsy.js"></script>
+    <script src="../js/bootstrap-popover.js"></script>
+    <script src="http://twitter.github.com/bootstrap/1.4.0/bootstrap-scrollspy.js"></script>
+    <script src="http://twitter.github.com/bootstrap/1.4.0/bootstrap-tabs.js"></script>
+    <script src="http://twitter.github.com/bootstrap/1.4.0/bootstrap-buttons.js"></script>
+        <script src="http://twitter.github.com/bootstrap/1.4.0/bootstrap-dropdown.js"></script>
+
+
+
+        <script language="javascript" type="text/javascript">
+      function message_start() {
+          $("a[name='delete_']").click(function () {
+              $(this).parent().parent().hide();
+              //return false;
+          });
+          $("div[rel=popover]")
+                .popover({
+                    offset: 10,
+                    placement: 'below'
+                })
+                .click(function (e) {
+                    e.preventDefault()
+                });
+      }
+      function switch_priority(m) {
+          var k = $('#' + m).text();
+          k.trim();
+          if (k == "0Low") {
+              $('#' + m).attr("class", "label warning");
+              $('#' + m).html("<font style='display:none;'>1</font>Medium");
+          }
+          else if (k == "1Medium") {
+              $('#' + m).attr("class", "label important");
+              $('#' + m).html("<font style='display:none;'>2</font>High");
+          }
+          else if (k == "2High") {
+              $('#' + m).attr("class", "label");
+              $('#' + m).html("<font style='display:none;'>0</font>Low");
+          }
+          else {
+              alert(k);
+          }
+          $("#sortTableExample").trigger("update");
+      }
+      function show_(tar) {
+          if ($(tar).is(":hidden")) {
+              $(tar).slideToggle('fast');
+          }
+      }
+      function switch_phone_area(tar, self) {
+          if ($(self).attr("src") == "../images/dropdown.png") {
+              show_(tar);
+              $(self).attr("src", "../images/dropup.png");
+          }
+          else {
+              hide_(tar);
+              $(self).attr("src", "../images/dropdown.png");
+          }
+      }
+      function test_modification(tar, selector) {
+          $("#" + tar).find("button[name='submit_btn']").each(function () {
+              if (!$(this).attr("disabled")) {
+                  var k = confirm("Are you sure that you want to abandon the changes?");
+                  if (!k) {
+                      $(selector).attr("selectedIndex", $(selector).attr("pre_select").toString());
+                      return false;
+                  }
+                  else {
+                      $(this).attr("disabled", true);
+                  }
+              }
+          });
+          $(selector).attr("pre_select", $(selector).attr("selectedIndex"));
+          return true;
+      }
+      function init_form(id) {
+
+
+          $("#" + id).find('textarea').each(function () {
+
+              if ($(this).attr("submit_status")) {
+                  return;
+              }
+
+              $(this).change(function () {
+                  $(this).parent().children('button[name="submit_btn"]').each(function () {
+                      $(this).attr("disabled", false);
+                  });
+              });
+
+              $(this).keydown(function () {
+                  $(this).parent().children('button[name="submit_btn"]').each(function () {
+                      $(this).attr("disabled", false);
+                  });
+              });
+
+          });
+
+          
+          $("#" + id + " :input").each(function () {
+
+              if ($(this).attr("submit_status")) {
+                  return;
+              }
+              
+              $(this).change(function () {
+                  $(this).parent().children('button[name="submit_btn"]').each(function () {
+                      $(this).attr("disabled", false);
+                  });
+              });
+
+              $(this).keydown(function () {
+                  $(this).parent().children('button[name="submit_btn"]').each(function () {
+                      $(this).attr("disabled", false);
+                  });
+              });
+
+          });
+
+          if ($("#" + id).find('select').length > 0) {
+              $("#" + id).find('select').each(function () {
+                  if ($(this).attr("submit_status")) {
+                      return;
+                  }
+                  $(this).change(function () {
+                      $(this).parent().children(".submit_btn").removeAttr("disabled");
+                  });
+
+              });
+          }
+          
+      
+      }
+      function init_forms() {
+          init_form('GROUP_MODIFICATION');
+          init_form('GIP_MODIFICATION');
+          
+          
+          
+      }
+      function hide_(tar) {
+          if (!$(tar).is(":hidden")) {
+              $(tar).slideToggle('fast');
+          }
+      }
+      function set_option() {
+          $('option').each(
+          function () {
+              $(this).mouseover(function () { $(this).attr("class", "op_b"); });
+              $(this).mouseout(function () { $(this).attr("class",""); });
+          }
+          );
+      }
+      function search_message(keyword) {
+          $('td[name="single_message"]').each(function () {
+              if ($(this).html().toLowerCase().indexOf(keyword.toLowerCase()) == -1) {
+                  $(this).parent().hide();
+              }
+              else {
+                  $(this).parent().show();
+              }
+          });
+      }
+  </script>
+        <script language="javascript" type="text/javascript">
+            var load = false;
+            function sortTable() {
+                if (!load) {
+                    setTimeout('sortTable();', 200);
+                }
+                else {
+                    $("#sortTableExample").tablesorter();
+                    $("#notification_table").tablesorter();
+                    var sorting = [[4, 1]];
+                    var sorting2 = [[1,1]];
+                    // sort on the first column 
+                    $("#sortTableExample").trigger("sorton", [sorting]);
+                    $("#notification_table").trigger("sorton", [sorting2]);
+                }
+            }
+            </script>
+
+    <style type="text/css">
+      /* Override some defaults */
+      html, body {
+        background-color: #eee;
+        vertical-align:bottom;
+      }
+      body {
+        padding-top: 40px; /* 40px to make the container go all the way to the bottom of the topbar */
+      }
+   
+      .container {
+        width: 1000px; /* downsize our container to make the content feel a bit tighter and more cohesive. NOTE: this removes two full columns from the grid, meaning you only go to 14 columns and not 16. */
+      }
+      .arrow
+      {
+          width:220px;
+          height:110px;
+      }
+      .op_b
+      {
+          background-color:#20B2AA;
+          color:White;
+          background-image:url(./images/garbage.png);
+          /*background-position:right top;*/
+      }
+      .op_b_delete
+      {
+          background-color:#20B2AA;
+          color:White;
+          background-image:url('../images/garbage.png');
+          background-position:right top;
+      }
+      /* The white background content wrapper */
+      .container > .content {
+        background-color: #fff;
+        padding: 20px;
+        margin: 0 -20px; /* negative indent the amount of the padding to maintain the grid system */
+        -webkit-border-radius: 0 0 6px 6px;
+           -moz-border-radius: 0 0 6px 6px;
+                border-radius: 0 0 6px 6px;
+        -webkit-box-shadow: 0 2px 3px rgba(0,0,0,.15);
+           -moz-box-shadow: 0 2px 3px rgba(0,0,0,.15);
+                box-shadow: 0 2px 3px rgba(0,0,0,.15);
+      }
+      .special
+      {
+               background-color: #fff;
+        -webkit-border-radius: 6px;
+           -moz-border-radius: 6px;
+                border-radius: 6px;
+        -webkit-box-shadow: 0 0 8px rgba(0,0,0,.25);
+           -moz-box-shadow: 0 0 8px rgba(0,0,0,.25);
+                box-shadow: 0 0 8px rgba(0,0,0,.25);
+      }
+
+      /* Page header tweaks */
+      .page-header {
+        background-color: #f5f5f5;
+        padding: 20px 20px 10px;
+        margin: -20px -20px 20px;
+      }
+
+      /* Styles you shouldn't keep as they are for displaying this base example only */
+      .content .span10,
+      .content .span4 {
+        min-height: 500px;
+      }
+      /* Give a quick and non-cross-browser friendly divider */
+      .content .span4 {
+        margin-left: 0;
+        padding-left: 19px;
+        border-left: 1px solid #eee;
+      }
+      .minHeight
+      {
+          min-height:600px;
+      }
+      .content
+      {
+          min-height:500px;
+           border:1px solid #bbb;
+      }
+       .content
+      {
+         max-height:600px;
+         overflow:auto;
+      }
+           .inner .content
+      {
+          min-height:0px;
+      }
+
+      .topbar .btn {
+        border: 0;
+      }
+      .shadow_
+      {
+          font-style:oblique;
+      }
+    </style>
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    <script language="javascript" type="text/javascript">
+        var current_screen = "message";
+        function switchSection(name) {
+            if (name != current_screen) {
+                $('#' + current_screen).toggle('normal', function () {
+                    $('#' + name).toggle('normal', null);
+                    current_screen = name;
+                });
+            }
+        }
+        function read_pages() {
+            
+            
+            read("groups.html", "#groups_");
+            read("gips.html", "#gips_");
+            read("handlers.html", "#handlers_");
+            read("message.html", "#message_");
+            
+        }
+        function read(name, target) {
+            var d = new Date()
+            $.ajax({
+                url: name + "?" + d.getTime(),
+                cache: false,
+                dataType: "text",
+                success: function (data) {
+
+                    $(target).html(data);
+                    if (name == "message.html") {
+                        load = true;
+                        message_start();
+                        init_select_sort();
+                        init_ul_sort();
+                        init_ul_css();
+                        set_option();
+                        init_forms();
+                    }
+                },
+                error: function () {
+
+                }
+            });
+        }
+        function enable_li_functionality(tar) {
+            var $new_li = $(tar).children().last();
+            $new_li.children("img").each(function () {
+                $(this).click(function () {
+                    $(this).parent().remove();
+                });
+            });
+            $new_li.mouseover(function () {
+                $(this).addClass("MultipleSelectBox_li_over");
+                $(this).children("img").show();
+            });
+            $new_li.mouseout(function () {
+                $(this).removeClass("MultipleSelectBox_li_over");
+                $(this).children("img").hide();
+            });
+            $(tar).multipleSelectBox();
+        }
+        function init_ul_css() {
+            $(".multipleUlBox").each(function () {
+                $(this).multipleSelectBox();
+
+            });
+            $(".multipleUlBox li").each(function () {
+                $(this).append('<img src="../images/garbage.png" class="pull-right" style="display:none;height:14px;"/>');
+                $(this).children("img").each(function () {
+                    $(this).click(function () {
+                        $(this).parent().remove();
+                    });
+                });
+                $(this).mouseover(function () {
+                    $(this).addClass("MultipleSelectBox_li_over");
+                    $(this).children("img").show();
+                });
+                $(this).mouseout(function () {
+                    $(this).removeClass("MultipleSelectBox_li_over");
+                    $(this).children("img").hide();
+                });
+
+
+            });
+
+        }
+        function removeSelf(tar) {
+            $(tar).parent().remove();
+        }
+        function getSelection(selector) {
+            var options = new Array();
+            $(selector + ' option:selected').each(
+            function () {
+                options[options.length] = $(this).val();
+            }
+            );
+            return options;
+
+        }
+        function getAll(selector) {
+            var options = new Array();
+            $(selector + ' li').each(
+            function () {
+                options[options.length] = $(this).attr("title");
+            }
+            );
+            return options;
+        }
+        function contains(selector, value) {
+            var values = getAll(selector);
+            for (var i = 0; i < values.length; i++) {
+  
+                if (values[i] == value) {
+
+                    return true;
+                }
+            }
+ 
+            return false;
+        }
+        function move(a, b) {
+            var chosens = getSelection(a);
+            var s = document.getElementById(b.substr(1));
+            for (var i = 0; i < chosens.length; i++) {
+                if (!contains(b, chosens[i])) {
+                    $(b).append('<li title="' + chosens[i].toString() + '"><font>' + chosens[i].toString() + '</font><img src="../images/garbage.png" class="pull-right" style="display:none;height:14px;"/></li>');
+                    enable_li_functionality($(b));
+                }
+            }
+        }
+        function init_ul_sort() {
+            $("div .special_select_top").each(function () {
+                var m = $(this).attr("sort-target-ul");
+                if (m == "undefined" || m == null) {
+                    return;
+                }
+
+                sort_ul(m, $(this).attr("dir"));
+                $(this).click(function () {
+                    var m = $(this).attr("sort-target-ul");
+                    if ($(this).attr("dir") == "0") {
+                        $(this).attr("dir", "1");
+                    }
+                    else {
+                        $(this).attr("dir", "0");
+                    }
+                    sort_ul(m, $(this).attr("dir"));
+
+                });
+
+
+            });
+        }
+        function sort_ul(name, dir) {
+            
+            var items = $('#' + name + ' li').get();
+            if (dir == "0") {
+                items.sort(function (a, b) {
+                    var keyA = $(a).text();
+                    var keyB = $(b).text();
+
+                    if (keyA > keyB) return -1;
+                    if (keyA < keyB) return 1;
+                    return 0;
+                });
+            }
+            else {
+                items.sort(function (a, b) {
+                    var keyA = $(a).text();
+                    var keyB = $(b).text();
+
+                    if (keyA < keyB) return -1;
+                    if (keyA > keyB) return 1;
+                    return 0;
+                });
+            }
+            var ul = $('#' + name);
+            $.each(items, function (i, li) {
+                ul.append(li);
+            });
+        }
+        function return_ul_options(tar) {
+
+            var options = new Array();
+            $("#"+tar+" li").each(function () {
+                options[options.length]=$(this).attr("title").toString();
+            });
+            var ret = options.join("|");
+            return ret;
+        }
+        function init_select_sort() {
+            $("div .special_select_top").each(
+            function () {
+                var m = $(this).attr("sort-target");
+                if (m == "undefined" || m == null) {
+                    return;
+                }
+
+                $("#" + m).sortOptions();
+                $(this).attr("dir", "0");
+                    $(this).click(function () {
+                        var m = $(this).attr("sort-target");
+                        if ($(this).attr("dir") == "0") {
+                            $("#" + m).sortOptions(false);
+                            $(this).attr("dir", "1");
+                        }
+                        else {
+                            $("#" + m).sortOptions();
+                            $(this).attr("dir", "0");
+                        }
+
+                    });
+            }
+            );
+        }
+        function deleteOption(selector) {
+                selector.remove(selector.selectedIndex);
+        }
+    </script> 
+  </head>
+
+  <body>
+    <div class="topbar-wrapper">
+            <div id="Div1" class="topbar" data-dropdown="dropdown">
+
+              <div class="topbar-inner">
+              
+                <div class="container">
+                  <h3 style="margin:0px;padding:0px;" class="brand"><a href="#" style="padding-left:0px;padding-right:0px;">Welcome ,</a></h3>
+                  <ul>
+                    <li><a href="#"  style="padding-left:4px;padding-right:4px;">Vincent</a></li>
+                  </ul>
+                 
+                  <ul class="nav secondary-nav">
+                    <li class="menu">
+                      <a href="#" class="menu">Account</a>
+                      <ul class="menu-dropdown">
+                        <li><a href="#" data-controls-modal="my-modal1" data-backdrop="static">Account Settings</a></li>
+                        <li class="divider"></li>
+                        <li><a href="index.html">Sign out</a></li>
+                      </ul>
+                    </li>
+                    <li class="menu">
+                      <a href="#" class="menu">Manage</a>
+                      <ul class="menu-dropdown">
+                        <li><a href="#" title="message" onclick="javascript:switchSection(this.title);">Messages</a></li>
+                        <li><a href="#" title="groups" onclick="javascript:switchSection(this.title);">Groups</a></li>
+                        <li><a href="#" title="gips" onclick="javascript:switchSection(this.title);">Gips</a></li>
+                        <li><a href="#" title="handlers" onclick="javascript:switchSection(this.title);">Handler/Admin</a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div align="center">
+          <div id="message">
+          <div class="container">
+           <div class="content" >
+           <div id="message_" align="left"></div>
+           </div>
+           </div>
+           </div>
+
+            <div id="groups"  style="display:none;">
+          <div class="container">
+           <div class="content">
+           <div id="groups_"  align="left"></div>
+           </div>
+           </div>
+           </div>
+            <div id="gips"  style="display:none;">
+          <div class="container">
+           <div class="content">
+          <div id="gips_"  align="left"></div>
+           </div>
+           </div>
+           </div>
+            <div id="handlers"  style="display:none;">
+          <div class="container">
+           <div class="content">
+          <div id="handlers_"  align="left"></div>
+           </div>
+           </div>
+           </div>
+           </div>
+ 
+ <br />
+    <div align="center">
+        <p>&copy; The Sentine Project for Genocide Prevention</p>
+      </div>
+     <div style="z-index:3;position:absolute;bottom:0px;right:-5px;padding:10px;min-height:15px;padding-top:5px;padding-bottom:5px; color:Gray;" class="special">Loading... </div>
+  </body>
+</html>
