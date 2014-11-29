@@ -51,6 +51,18 @@
           </tr>
         </thead>
         <tbody>
+  # "This is using a for loop to generate the messages in a message box"
+  #     {% for message in message_box %}
+  #       <tr id={{message.id}}>
+  #           <td><input type="checkbox" id="m_1_c" /></td>
+  #           <td name="single_message">
+  #         <div style="height:19px; overflow:hidden;" title="Detail" rel="popover" data-content="Click to view details"><a href="javascript:void(0);" data-controls-modal="message_detail" data-backdrop="static">{{message.content}} </a></div>
+  #          </td>
+  #        <td>One</td>
+  #          <td>{{message.date}}</td>
+  #          <td><a id="m_s_2" href="javascript:switch_priority('m_s_1');" class="label"style="color:White;" ><font style='display:none;'>0</font>{{message.priority}}</a></td>
+  #        </tr>
+  #     {% endfor %}
           <tr id="m_1">
             <td><input type="checkbox" id="m_1_c" /></td>
             <td name="single_message">
